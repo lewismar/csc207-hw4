@@ -18,9 +18,9 @@ public class Fraction {
     private BigInteger numerator;
     private BigInteger denominator;
 
-    /*
-     * Constructor, takes two integers to be a numerator and a denominator
-     * produces a Fraction object, with the numerator and denominator stored privately
+    /* --------------
+     * |Constructors|
+     * --------------
      */
     public Fraction(int n, int d) throws Exception {
 	if(d == 0) {
@@ -99,9 +99,43 @@ public class Fraction {
 	this.denominator = den;
 	this.cleanup();
     } //Fraction
-    /*
-     * Observer, retrieves the private numerator value of the Fraction object
+    /* ----------------
+     * |Public Methods|
+     * ----------------
      */
+    public int compareTo (Fraction other) {
+	if (this.equals(other)) {
+	    return 0;
+	}
+	else if (this.decimalValue() > other.decimalValue()) { //other is smaller than this
+	    return 1;
+	}
+	return -1;
+	    
+    } //compareTo
+    
+    public static Fraction negate (Fraction input) throws Exception{
+	Fraction output = new Fraction((input.getNumerator()).multiply(BigInteger.valueOf(-1)), input.getDenominator());
+	output.cleanup();
+	return output;	
+    } //negate
+
+    public static Fraction reciprocal (Fraction input) throws Exception {
+	Fraction output = new Fraction(input.getDenominator(),input.getNumerator());
+	output.cleanup();
+	return output;
+    } //reciprocal
+    
+    public static Fraction fractionalPart (Fraction input) throws Exception {
+	Fraction output = new Fraction(input.getNumerator().mod(input.getDenominator()),input.getDenominator());
+	output.cleanup();
+	return output;	
+    } //fractionalPart
+    
+    public static BigInteger wholePart (Fraction input) throws Exception {
+	return(input.getNumerator().divide(input.getDenominator()));
+    } //wholePart
+    
     public BigInteger getNumerator() {
 	return this.numerator;
     } // getNumerator
@@ -116,7 +150,7 @@ public class Fraction {
     /*
      * Mutator, to be able to change the value of the Fraction number
      */
-    public Fraction multiply(Fraction multiplier, Fraction multiplier2) throws Exception {
+    public static Fraction multiply(Fraction multiplier, Fraction multiplier2) throws Exception {
 	BigInteger num = multiplier.getNumerator().multiply(multiplier2.getNumerator());
 	BigInteger den = multiplier.getDenominator().multiply(multiplier2.getDenominator());
 	Fraction multiplicand = new Fraction (num, den);
@@ -127,7 +161,7 @@ public class Fraction {
     /*
      * Mutator, to be able to change the value of the Fraction number
      */
-    public Fraction divide(Fraction dividend, Fraction divisor) throws Exception {
+    public static Fraction divide(Fraction dividend, Fraction divisor) throws Exception {
 	Fraction recip = new Fraction(divisor.getDenominator(), divisor.getNumerator());
 	return multiply(dividend, recip);
     } // divide
@@ -144,7 +178,7 @@ public class Fraction {
     /*
      * Mutator, adds a Fraction number to a Fraction number
      */
-    public Fraction add(Fraction toAdd, Fraction twoAdd) throws Exception {
+    public static Fraction add(Fraction toAdd, Fraction twoAdd) throws Exception {
 	BigInteger num = (toAdd.getNumerator().multiply(twoAdd.getDenominator())).add(twoAdd.getNumerator().multiply(toAdd.getDenominator()));
 	BigInteger den = toAdd.getDenominator().multiply(twoAdd.getDenominator());
 	Fraction result = new Fraction(num, den);
@@ -155,39 +189,11 @@ public class Fraction {
     /*
      * Mutator, subtracts a Fraction number to a Fraction number
      */
-    public Fraction subtract(Fraction toSubtract, Fraction twoSubtract) throws Exception {
+    public static Fraction subtract(Fraction toSubtract, Fraction twoSubtract) throws Exception {
 	Fraction neg = new Fraction(twoSubtract.getNumerator().multiply(BigInteger.valueOf(-1)), twoSubtract.getDenominator());
 	return add(toSubtract, neg);
     } // subtract
 
-    /*
-     * simplify reduces a Fraction to the simplest terms.
-     */
-    public void simplify() throws Exception {
-	BigInteger gcd = this.denominator.gcd(this.numerator);
-	this.denominator.divide(gcd);
-	this.numerator.divide(gcd);
-    } // simplify
-
-
-    /*
-     * If the fraction is negative, this function ensures that the negative number is within the numerator
-     * It also changes -numerator/-denominator to +numerator/+denominator
-     */
-    public void fixNegs() {
-	if(this.denominator.compareTo(BigInteger.valueOf(0)) == -1) {        
-	    this.numerator.multiply(BigInteger.valueOf(-1));
-	    this.denominator.multiply(BigInteger.valueOf(-1));
-	} //if
-    } // fixNegs
-
-    /*
-     * cleans up the fraction class by simplifying and fixing negative numbers
-     */
-    public void cleanup() throws Exception{
-	this.simplify();
-	this.fixNegs();
-    } //cleanup    
 
     /*
      * Returns the string representation of the fraction.
@@ -198,16 +204,49 @@ public class Fraction {
     public int hashCode() { 
 	return numerator.hashCode() * denominator.hashCode(); 
     } //hasCode
-    
-    public Fraction clone(Fraction orig) throws Exception{
-	Fraction cloned = new Fraction (orig.getNumerator(),orig.getDenominator());
+
+    public Fraction clones() throws Exception{
+	Fraction cloned = new Fraction (this.getNumerator(),this.getDenominator());
 	cloned.cleanup();
 	return cloned;
     } //clone
-    
-    //May need to handle all objects, currently only supports Fractions
-    public boolean equals(Fraction other) {
-	return (this.numerator.equals(other.getNumerator()) && this.denominator.equals(other.getDenominator()));
+
+
+    public boolean equals(Object obj) {
+	return (this.hashCode() == obj.hashCode());
     } //equals 
-    
+    /* ----------------
+     * |Private Methods|
+     * ----------------
+     */
+
+    /*
+     * simplify reduces a Fraction to the simplest terms.
+     */
+    private void simplify() throws Exception {
+	BigInteger gcd = this.denominator.gcd(this.numerator);
+	this.denominator.divide(gcd);
+	this.numerator.divide(gcd);
+    } // simplify
+
+
+    /*
+     * If the fraction is negative, this function ensures that the negative number is within the numerator
+     * It also changes -numerator/-denominator to +numerator/+denominator
+     */
+    private void fixNegs() {
+	if(this.denominator.compareTo(BigInteger.valueOf(0)) == -1) {        
+	    this.numerator.multiply(BigInteger.valueOf(-1));
+	    this.denominator.multiply(BigInteger.valueOf(-1));
+	} //if
+    } // fixNegs
+
+    /*
+     * cleans up the fraction class by simplifying and fixing negative numbers
+     */
+    private void cleanup() throws Exception{
+	this.simplify();
+	this.fixNegs();
+    } //cleanup 
+
 } // Fraction

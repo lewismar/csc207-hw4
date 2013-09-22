@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class FractionTest{
+public class FractionTest {
 
     Fraction exampleOne = new Fraction (1, 1);
     Fraction exampleTwo = new Fraction (7, 23);
@@ -44,7 +44,7 @@ public class FractionTest{
     Fraction exampleOneDivided = new Fraction(exampleOne.getNumerator(), exampleOne.getDenominator());
     exampleOneDivided.divide(exampleOneDivided, exampleFour);
     Fraction exampleTwoDivided = new Fraction(exampleTwo.getNumerator(), exampleTwo.getDenominator());
-    exampleTwoDivided.divide(exampleTwoDivided, exampleThree);
+    Fraction.divide(exampleTwoDivided, exampleThree);
     assertEquals("example one divide numerator", 4, exampleOneDivided.getNumerator());
     assertEquals("example one divide denominator", -1, exampleOneDivided.getDenominator());
     assertEquals("example two divide numerator", 14, exampleTwoDivided.getNumerator());
