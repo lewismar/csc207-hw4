@@ -172,7 +172,7 @@ public class Fraction {
      * Note: Precision is lost in this method
      */
     public double decimalValue(){
-	return (this.numerator.divide(this.denominator).doubleValue());
+	return (this.numerator.doubleValue() / this.denominator.doubleValue());
     } // computeValue
 
     /*
