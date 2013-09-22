@@ -1,4 +1,3 @@
-
 package turneral1.grinnell.edu.hw4;
 
 import java.math.BigInteger;
@@ -114,24 +113,35 @@ public class Fraction {
 	    
     } //compareTo
     
+    /*
+     * Creates a new fraction - the negated input
+     */
     public static Fraction negate (Fraction input) throws Exception{
 	Fraction output = new Fraction((input.getNumerator()).multiply(BigInteger.valueOf(-1)), input.getDenominator());
 	output.cleanup();
 	return output;	
     } //negate
-
+    /*
+     * Creats a new fraction - the reciprical of input
+     */
     public static Fraction reciprocal (Fraction input) throws Exception {
 	Fraction output = new Fraction(input.getDenominator(),input.getNumerator());
 	output.cleanup();
 	return output;
     } //reciprocal
-    
+    /*
+     * Returns the fractional part of a mixed number.
+     * For example, 8/3 would return 2/3
+     */
     public static Fraction fractionalPart (Fraction input) throws Exception {
 	Fraction output = new Fraction(input.getNumerator().mod(input.getDenominator()),input.getDenominator());
 	output.cleanup();
 	return output;	
     } //fractionalPart
-    
+    /* 
+     * Returns the "Whole part" of a mixed number
+     * For example, 8/3 would returns 2
+     */
     public static BigInteger wholePart (Fraction input) throws Exception {
 	return(input.getNumerator().divide(input.getDenominator()));
     } //wholePart
@@ -140,15 +150,12 @@ public class Fraction {
 	return this.numerator;
     } // getNumerator
 
-    /*
-     * Observer, retrieves the private denominator value of the Fraction object
-     */
     public BigInteger getDenominator() {
 	return this.denominator;
     } // getDenominator
 
     /*
-     * Mutator, to be able to change the value of the Fraction number
+     * Returns a new fraction - the two multiplied
      */
     public static Fraction multiply(Fraction multiplier, Fraction multiplier2) throws Exception {
 	BigInteger num = multiplier.getNumerator().multiply(multiplier2.getNumerator());
@@ -159,7 +166,7 @@ public class Fraction {
     } // multiply
 
     /*
-     * Mutator, to be able to change the value of the Fraction number
+     * Returns a new fraction - the two dived
      */
     public static Fraction divide(Fraction dividend, Fraction divisor) throws Exception {
 	Fraction recip = new Fraction(divisor.getDenominator(), divisor.getNumerator());
@@ -167,16 +174,16 @@ public class Fraction {
     } // divide
 
     /*
-     * Observer, does not change any values stored but returns
+     * does not change any values stored but returns
      * the numerator/denominator. 
      * Note: Precision is lost in this method
      */
     public double decimalValue(){
-	return (this.numerator.doubleValue() / this.denominator.doubleValue());
+	return (this.numerator.divide(this.denominator).doubleValue());
     } // computeValue
 
     /*
-     * Mutator, adds a Fraction number to a Fraction number
+     * Creates a new fraction - the two fractions added
      */
     public static Fraction add(Fraction toAdd, Fraction twoAdd) throws Exception {
 	BigInteger num = (toAdd.getNumerator().multiply(twoAdd.getDenominator())).add(twoAdd.getNumerator().multiply(toAdd.getDenominator()));
@@ -187,7 +194,7 @@ public class Fraction {
     } // add
 
     /*
-     * Mutator, subtracts a Fraction number to a Fraction number
+     * Creates a new fraciton - the first fraction subtracted from the second
      */
     public static Fraction subtract(Fraction toSubtract, Fraction twoSubtract) throws Exception {
 	Fraction neg = new Fraction(twoSubtract.getNumerator().multiply(BigInteger.valueOf(-1)), twoSubtract.getDenominator());
@@ -201,17 +208,24 @@ public class Fraction {
     public String toString() {
 	return (this.numerator + "/" + this.denominator);
     } // toString
+    /*
+     * Returns the hashcode of a fraction
+     */
     public int hashCode() { 
 	return numerator.hashCode() * denominator.hashCode(); 
-    } //hasCode
-
+    } //hashCode
+    /*
+     * creates a new fraction identical to the given fraction
+     */
     public Fraction clones() throws Exception{
 	Fraction cloned = new Fraction (this.getNumerator(),this.getDenominator());
 	cloned.cleanup();
 	return cloned;
     } //clone
 
-
+    /*
+     * determines if a fraction equals another object
+     */
     public boolean equals(Object obj) {
 	return (this.hashCode() == obj.hashCode());
     } //equals 
