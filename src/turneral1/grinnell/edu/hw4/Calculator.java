@@ -26,26 +26,24 @@ public class Calculator {
     public double evaluate(String expression) throws Exception {
 	int storageIndex = -1;
 	double value = 0;
+	char symbol = '+';
 	
-	if (expression.length() >= 5) {
-	    if ((expression.substring(0,5)).matches("[r]\\d = ")) {
-		// store the specified index
-		storageIndex = expression.charAt(1) - 48;
-		// truncate the assignment from the expression
-		expression = expression.substring(expression.indexOf(' ',expression.indexOf(' ')+1)+1);
-	    } // if
+	if ((expression.substring(0,1).matches("[r]\\d"))) {
+	    if (expression.length() >= 5 && (expression.substring(0,5)).matches("[r]\\d = ")) {
+		    // store the specified index
+		    storageIndex = expression.charAt(1) - 48;
+		    // truncate the assignment from the expression
+		    expression = expression.substring(expression.indexOf(' ',expression.indexOf(' ')+1)+1);
+		} // if
+	    else  {
+		value = r[expression.charAt(1) - 48];
+		// store the next symbol
+		symbol = expression.charAt(expression.indexOf(' ')+1);
+		// moves to the next number
+		expression = expression.substring(expression.indexOf(' ')+3);
+	    } // else
 	} // if
 	
-	char symbol = '+';
-	for (int j = 0; j<expression.indexOf(' '); j++) {
-	    value += (expression.charAt(j)-48)*Math.pow(10,expression.indexOf(' ')-j-1);
-	} // for
-	
-	// store the next symbol
-	symbol = expression.charAt(expression.indexOf(' ')+1);
-	// moves to the next number
-	expression = expression.substring(expression.indexOf(' ')+3);
-	System.out.println(value + " " + expression);
 	while(expression.length() > 0) {
 	    double num = 0;
 	    int len = 0;
@@ -69,7 +67,7 @@ public class Calculator {
 		BigInteger numerator = BigInteger.valueOf(0);
 		
 		for (; expression.charAt(j) != '/'; j++) {
-		    numerator = numerator.add(BigInteger.valueOf((expression.charAt(j)-48)*((long)Math.pow(10,len-j-1))));
+		    numerator = numerator.add(BigInteger.valueOf((expression.charAt(j)-48)*((long)Math.pow(10,expression.indexOf('/')-j-1))));
 		} // for
 		
 		BigInteger denominator = BigInteger.valueOf(0);
@@ -110,9 +108,9 @@ public class Calculator {
 		break;
 
 	    // store the next symbol
-	    symbol = expression.charAt(expr.indexOf(' ')+1);
+	    symbol = expression.charAt(expression.indexOf(' ')+1);
 	    // moves to the next number
-	    expression = expression.substring(expr.indexOf(' ')+3);
+	    expression = expression.substring(expression.indexOf(' ')+3);
 	} // while
 
 	if (storageIndex > -1 && storageIndex < storageSize) {
