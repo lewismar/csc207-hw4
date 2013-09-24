@@ -97,5 +97,52 @@ public class FractionTest {
 	assertEquals("example one subtract denominator", BigInteger.valueOf(2),
 		exampleOneSub.getDenominator());
     } // testSubtract
+    
+    @Test
+    public void testToString() throws Exception {
+	initExamples();
+	assertEquals("example one toString","1/1",exampleOne.toString());
+    }
+ 
+    @Test
+    public void testWholePart() throws Exception {
+	initExamples();
+	assertEquals("example three",BigInteger.valueOf(1),exampleThree.wholePart());
+    }
+    
+    @Test
+    public void testFractionPart() throws Exception {
+	initExamples();
+	assertEquals("example one FractionPart",BigInteger.valueOf(1),exampleThree.fractionalPart().getNumerator());
+	assertEquals("example one FractionPart",BigInteger.valueOf(2),exampleThree.fractionalPart().getDenominator());
+    }
+    @Test
+    public void testReciprocal() throws Exception {
+	initExamples();
+	assertEquals("example one reciprocal",BigInteger.valueOf(2),exampleThree.reciprocal().getNumerator());
+	assertEquals("example one reciprocal",BigInteger.valueOf(3),exampleThree.reciprocal().getDenominator());
+    }
+    @Test
+    public void testNegate() throws Exception {
+	initExamples();
+	assertEquals("example one negate",BigInteger.valueOf(-3),exampleThree.negate().getNumerator());
+	assertEquals("example one negate",BigInteger.valueOf(2),exampleThree.negate().getDenominator());
+    }
+    @Test  //this tests the equals, hashcode, and Fraction(string) methods
+    public void testEquals() throws Exception {
+	initExamples();
+	Fraction fromString = new Fraction("3/2");
+	assertEquals("example one equals",true, exampleThree.equals(fromString));
+	assertEquals("example two equals", false, exampleFour.equals(fromString));
+    }
+    @Test  
+    public void testCompareTo() throws Exception {
+	initExamples();
+	assertEquals("example one equals",0, exampleOne.compareTo(exampleOne));
+	assertEquals("example one equals",-1, exampleOne.compareTo(exampleThree));
+	assertEquals("example one equals",1, exampleOne.compareTo(exampleFour));
+
+    }
+    
 
 } // FractionTest

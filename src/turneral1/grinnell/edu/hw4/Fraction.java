@@ -82,7 +82,7 @@ public class Fraction {
 	    i++;
 	} //while
 
-	denStr += str.substring(i, str.length());
+	denStr += str.substring(i+1, str.length());
 	if (denStr.length() == 0) {
 	    den = BigInteger.valueOf(1);
 	} //if
@@ -117,16 +117,16 @@ public class Fraction {
     /*
      * Creates a new fraction - the negated input
      */
-    public static Fraction negate (Fraction input) throws Exception{
-	Fraction output = new Fraction((input.getNumerator()).multiply(BigInteger.valueOf(-1)), input.getDenominator());
+    public Fraction negate () throws Exception{
+	Fraction output = new Fraction((this.getNumerator()).multiply(BigInteger.valueOf(-1)), this.getDenominator());
 	output.cleanup();
 	return output;	
     } //negate
     /*
      * Creats a new fraction - the reciprical of input
      */
-    public static Fraction reciprocal (Fraction input) throws Exception {
-	Fraction output = new Fraction(input.getDenominator(),input.getNumerator());
+    public Fraction reciprocal () throws Exception {
+	Fraction output = new Fraction(this.getDenominator(),this.getNumerator());
 	output.cleanup();
 	return output;
     } //reciprocal
@@ -134,8 +134,8 @@ public class Fraction {
      * Returns the fractional part of a mixed number.
      * For example, 8/3 would return 2/3
      */
-    public static Fraction fractionalPart (Fraction input) throws Exception {
-	Fraction output = new Fraction(input.getNumerator().mod(input.getDenominator()),input.getDenominator());
+    public Fraction fractionalPart () throws Exception {
+	Fraction output = new Fraction(this.getNumerator().mod(this.getDenominator()),this.getDenominator());
 	output.cleanup();
 	return output;	
     } //fractionalPart
@@ -143,8 +143,8 @@ public class Fraction {
      * Returns the "Whole part" of a mixed number
      * For example, 8/3 would returns 2
      */
-    public static BigInteger wholePart (Fraction input) throws Exception {
-	return(input.getNumerator().divide(input.getDenominator()));
+    public BigInteger wholePart () throws Exception {
+	return(this.getNumerator().divide(this.getDenominator()));
     } //wholePart
     
     public BigInteger getNumerator() {
