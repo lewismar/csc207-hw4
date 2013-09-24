@@ -40,7 +40,11 @@ public class Calculator {
 	 */
 	for (i = 0; i < expression.length(); i++){
 	    if ((expression.substring(i,i+1)).matches("[^\\dr\\+\\-/\\*= \\^]")) {
-		throw new Exception("Invalid input character " + expression.charAt(i) + " at index " + i);
+		try {
+		    throw new Exception("Invalid input character.");
+		} catch (Exception e) {
+		    System.out.println("Invalid input character " + expression.charAt(i) + " at index " + i);
+		} // catch
 	    } // if
 	} // for
 
