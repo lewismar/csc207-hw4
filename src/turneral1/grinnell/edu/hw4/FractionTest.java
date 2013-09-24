@@ -13,6 +13,7 @@ public class FractionTest {
     Fraction exampleThree;
     Fraction exampleFour;
 
+    //this format was suggested by Sam Rebelsky
     public void initExamples() throws Exception {
 	exampleOne = new Fraction(1, 1);
 	exampleTwo = new Fraction(7, 23);
