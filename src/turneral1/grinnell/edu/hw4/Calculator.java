@@ -10,7 +10,7 @@ public class Calculator {
     private int storageSize;
     private double r[] = new double[storageSize];
 
-    public Calculator() throws Exception {
+    public Calculator() {
 	// minimum storage size is 8
 	this.storageSize = 8;
 	this.r = new double[this.storageSize];
@@ -19,16 +19,32 @@ public class Calculator {
     public Calculator(int size) throws Exception {
 	this.storageSize = size;
 	this.r = new double[this.storageSize];
-    } // Calculator(int storageSize)
+    } // Calculator(int)
 
     // Much of the code is taken from the Calculator class for Alex Turner and
     //  Daniel Goldstein's csc-207/hw3 repository
     public double evaluate(String expression) throws Exception {
-	int storageIndex = -1;
+	/* 
+	 * storageIndex == -1 denotes no assignment. 
+	 * Otherwise, r[storageIndex] = value.
+	 */
+	int storageIndex = -1, i;
+	// the return value
 	double value = 0;
 	char symbol = '+';
 
-	// expression begins with a memory call
+	/*
+	 * Check to see if the expression is malformed.
+	 * Accepted characters:
+	 *  [0123456789r+-/*= ^]
+	 */
+	for (i = 0; i < expression.length(); i++){
+	    if ((expression.substring(i,i+1)).matches("[^\\dr\\+\\-/\\*= \\^]")) {
+		throw new Exception("Invalid input character " + expression.charAt(i) + " at index " + i);
+	    } // if
+	} // for
+
+	// expression begins with an assignment call check
 	if ((expression.substring(0,2).matches("[r]\\d"))) {
 	    if (expression.length() >= 5 && (expression.substring(0,5)).matches("[r]\\d = ")) {
 		// store the specified index
@@ -72,40 +88,40 @@ public class Calculator {
 
 	    // fractional input
 	    else if (expr.matches("\\d/\\d") || expr.matches("\\d/\\-\\d")) { 
-		int j = 0;
+		i = 0;
 		BigInteger numerator = BigInteger.valueOf(0);
 
 		// read numerator
-		for (; expression.charAt(j) != '/'; j++) {
-		    numerator = numerator.add(BigInteger.valueOf((expression.charAt(j)-48)*((long)Math.pow(10,expression.indexOf('/')-j-1))));
+		for (; expression.charAt(i) != '/'; i++) {
+		    numerator = numerator.add(BigInteger.valueOf((expression.charAt(i)-48)*((long)Math.pow(10,expression.indexOf('/')-i-1))));
 		} // for		
 
 		// the denominator is negative
-		if(expression.charAt(j+1) == '-') {
+		if(expression.charAt(i+1) == '-') {
 		    isNegative = !isNegative;
-		    j++;
+		    i++;
 		} // if
 
 		// read denominator
 		BigInteger denominator = BigInteger.valueOf(0);
-		for (j++; j<len; j++) {
-		    denominator = denominator.add(BigInteger.valueOf((expression.charAt(j)-48)*((long)Math.pow(10,len-j-1))));
+		for (i++; i<len; i++) {
+		    denominator = denominator.add(BigInteger.valueOf((expression.charAt(i)-48)*((long)Math.pow(10,len-i-1))));
 		} // for
 
 		num = (new Fraction(numerator,denominator)).decimalValue();
 	    } // else if
-	    
+
 	    // for normal integers
 	    else { 
-		for (int j = 0; j<len; j++) {
-		    num += (expression.charAt(j)-48)*Math.pow(10,len-j-1);
+		for (i = 0; i<len; i++) {
+		    num += (expression.charAt(i)-48)*Math.pow(10,len-i-1);
 		} // for
 	    } // else
-	    
+
 	    if (isNegative) {
 		num *= -1;
 	    } // if
-	    
+
 	    switch (symbol) {
 	    case '+':
 		value += num;
@@ -119,6 +135,7 @@ public class Calculator {
 	    case '/':
 		if (num != 0) {
 		    value /= num;
+		    // ERROR
 		} // if
 		break;
 	    case '^':
@@ -129,7 +146,7 @@ public class Calculator {
 	    if (expression.indexOf(' ') == -1) {
 		break;
 	    } // if
-	    
+
 	    // store the next symbol
 	    symbol = expression.charAt(expression.indexOf(' ')+1);
 	    // moves to the next number

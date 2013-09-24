@@ -40,7 +40,12 @@ public class CalculatorTest {
 	assertEquals("Retrieval", 500, ti84.evaluate("r0"), .01);
 	assertEquals("Overwriting", 200, ti84.evaluate("r0 = 2 * 100"), .01);
 	
+	// Multiple expressions
+	assertArrayEquals("Multiple expressions", new double[] {5,10,0},
+		 ti84.evaluate(new String[] {"2 + 3", "5 * 2", "5 * 0"}), .01);
+	
 	// Exceptions
-	assertEquals("Divide by 0", "fail", ti84.evaluate("1/0"));
+	assertEquals("Invalid characters", 5, ti84.evaluate("5.5 + GoNSA0"),.01);
+	//assertEquals("Divide by 0", "fail", ti84.evaluate("1/0"));
     } // test()
 } // CalculatorTest
