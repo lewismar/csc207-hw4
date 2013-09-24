@@ -86,7 +86,7 @@ public class Calculator {
 	    String expr = expression.substring(0,len);
 
 	    if (expr.matches("[r]\\d")) { // stored value
-		// check that r[d] has a value
+		// sets num to the value at r[number]
 		num = r[expr.charAt(expr.indexOf('r')+1)-48];
 	    } // if
 
@@ -137,10 +137,11 @@ public class Calculator {
 		value *= num;
 		break;
 	    case '/':
-		if (num != 0) {
+		try {
 		    value /= num;
-		    // ERROR
-		} // if
+		} catch (Exception e) {
+		    System.out.println("Division by zero is not allowed.");
+		} // catch
 		break;
 	    case '^':
 		value = Math.pow(value,num);
