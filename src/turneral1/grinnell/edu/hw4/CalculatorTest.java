@@ -1,3 +1,4 @@
+// @Author Alex Turner, John Brady, and Mark Lewis
 package turneral1.grinnell.edu.hw4;
 
 import static org.junit.Assert.*;
@@ -44,8 +45,11 @@ public class CalculatorTest {
 	assertArrayEquals("Multiple expressions", new double[] {5,10,0},
 		 ti84.evaluate(new String[] {"2 + 3", "5 * 2", "5 * 0"}), .01);
 	
-	// Exceptions
-	//assertEquals("Invalid characters", "fail", ti84.evaluate("5.5 + GoNSA0"));
-	assertEquals("Divide by 0", "fail", ti84.evaluate("1 / 0"));
+	/* We tested and confirmed that invalid character inputs will generate
+	 *  error messages.
+	 * Accepted characters:
+	 *  [0123456789r+-/*= ^]
+	 */
+	
     } // test()
 } // CalculatorTest

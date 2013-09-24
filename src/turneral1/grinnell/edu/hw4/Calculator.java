@@ -5,11 +5,19 @@ package turneral1.grinnell.edu.hw4;
 
 import java.math.BigInteger;
 
+/*
+ * Class Calculator
+ * 
+ * Fields:
+ *  int storageSize the number of members in r[].
+ *  double r[storageSize] acts as memory for the calculator. 
+ */
 public class Calculator {
-    // initialize storage elements
     private int storageSize;
     private double r[] = new double[storageSize];
 
+    // Constructors
+    
     public Calculator() {
 	// minimum storage size is 8
 	this.storageSize = 8;
@@ -17,10 +25,27 @@ public class Calculator {
     } // Calculator()
 
     public Calculator(int size) throws Exception {
-	this.storageSize = size;
-	this.r = new double[this.storageSize];
+	this.storageSize = 8;
+    	if (size >= 8) {
+            this.storageSize = size;
+    	} // if
+        this.r = new double[this.storageSize];
     } // Calculator(int)
-
+    
+    // Public methods
+    
+    /*
+     * evaluate(String)
+     * 
+     * Preconditions:
+     *  expression only contains the characters 
+     *   0123456789r+-/*= ^
+     * 
+     * Postconditions:
+     *  Evaluates the expression using naive left to right order of operations,
+     *   returning the result as a double.
+     *  If "r\d = (expression)", assigns the result of (expression) to r[\d].
+     */
     // Much of the code is taken from the Calculator class for Alex Turner and
     //  Daniel Goldstein's csc-207/hw3 repository
     public double evaluate(String expression) throws Exception {
@@ -137,11 +162,7 @@ public class Calculator {
 		value *= num;
 		break;
 	    case '/':
-		try {
-		    value /= num;
-		} catch (Exception e) {
-		    System.out.println("Division by zero is not allowed.");
-		} // catch
+		value /= num;
 		break;
 	    case '^':
 		value = Math.pow(value,num);
@@ -166,6 +187,17 @@ public class Calculator {
 	return value;
     } // evaluate(String expression)
 
+    /*
+     * evaluate(String[])
+     * 
+     * Preconditions:
+     *  All Strings only contain the characters 
+     *   0123456789r+-/*= ^
+     * 
+     * Postconditions:
+     *  Returns each String's result in an array. See postconditions for
+     *   evaluate(String).
+     */
     public double[] evaluate(String[] expressions) throws Exception {
 	double values[] = new double[expressions.length];
 
