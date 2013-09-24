@@ -1,6 +1,7 @@
 package turneral1.grinnell.edu.hw4;
 
 import java.math.BigInteger;
+import java.math.BigDecimal;
 
 /* @Mark Lewis
  * @Alex Turner
@@ -179,7 +180,9 @@ public class Fraction {
      * Note: Precision is lost in this method
      */
     public double decimalValue(){
-	return (this.numerator.divide(this.denominator).doubleValue());
+	BigDecimal num = new BigDecimal(this.numerator);
+	BigDecimal den = new BigDecimal(this.denominator);
+	return  num.divide(den, 1, 1).doubleValue();
     } // computeValue
 
     /*
