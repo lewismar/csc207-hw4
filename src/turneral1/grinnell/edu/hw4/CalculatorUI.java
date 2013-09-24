@@ -1,7 +1,10 @@
 package turneral1.grinnell.edu.hw4;
 
+	/*
+	 * A friendly UI for the calculator class that supports fractions
+	 */
 public class CalculatorUI {
-
+    
     public static void main(String[] args) throws Exception {
 	Calculator calc = new Calculator();
 	java.io.PrintWriter pen;
